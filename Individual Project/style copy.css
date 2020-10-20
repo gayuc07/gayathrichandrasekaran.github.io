@@ -1,0 +1,311 @@
+html {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: normal 0.78em  arial, sans-serif;
+    color: #555;
+    background-color: 	#F5F5F5;
+    width: 1350px;
+}
+
+#header {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #E6E6FA;
+    height: 100px;
+    width: 1350px;
+}
+
+#logobkg {
+    width: 200px;
+    height: 100px;
+    background: url(g20_logo.png) no-repeat;
+    background-size: contain;
+}
+
+
+h1 {
+    padding: 0 0 0 100px;
+    font: 230% "century gothic", aerial, sans_seriff;
+    color: #111;
+    margin: 0 0 15px 0;
+    width: 1350px;
+    text-decoration: none;
+    border-bottom: 0;
+    margin: 0;
+}
+h2 {
+    padding: 0 0 0 120px;
+    font: 180% "century gothic", aerial, sans_seriff;
+    text-align: center;
+    width: 700px;
+ 
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+#main {
+    width: 1350px;
+    background: url(content.png) repeat-y;
+
+}
+
+#menubar {
+    width: 1000px;
+    height: 35px;
+    padding: 8px 550px 0 100px;
+    margin: -40px 0 0 0;
+    position: relative;
+    z-index: 1;
+    float: right;
+}
+
+ul#menu {
+    float: right;
+    margin: 0;
+    
+}
+
+ul#menu li {
+    float: left;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 6px;
+    list-style: none;
+
+}
+
+ul#menu li a {
+    letter-spacing: 0em;
+    font: bold 105% arial, sans-serif;
+    text-transform: uppercase;
+    display: block;
+    float: left;
+    text-decoration: none;
+    padding: 9px 22px 5px 16px;
+    text-align: center;
+    color: #2F4F4F;
+    border: 0;
+}
+
+ul#menu li.selected a {
+    height: 25px;
+    color: #111;
+    padding: 7px 22px 5px 16px;
+
+
+}
+
+ul#menu li.selected {
+    margin: 7px 0 0 0;
+    background: #f8f8f8;
+}
+
+ul#menu li a:hover {
+    color:	#9370DB;
+}
+
+
+
+#spend_text, #g20_participants, #Datasource {
+    width: 1200px;
+    height: 200px
+}
+
+#spend_text h3 {
+    margin: 50px 0 10px 50px;
+    
+}
+
+#g20_participants h3 {
+    margin: 0 0 10px 50px;
+    
+}
+
+#spend_text p, #g20_participants p , #Datasource p {
+    margin: 0 0 10px 50px;
+    text-align: justify;
+
+}
+
+#Total_Spending h4 {
+    margin: -30px 0 20px 50px;
+    
+}
+
+#total_spending_div {
+    margin: 10px 0 10px 50px;
+}
+
+#Datasource h3 {
+    margin: 20px 0 10px 50px;
+    
+}
+
+#Datasource ul li {
+    list-style-type: none;
+    background: url(bullet.png) no-repeat;
+    margin: 0 0 0 60px;
+    padding: 0 0 0 20px;
+    line-height: 1.5em;
+}
+
+#Latest_info_spending {
+    margin: 20px 0 0 20px;
+    padding: 0 0 0 20px;
+    width: 300px;
+    height: 1400px;
+    background-color: powderblue;
+    text-align: center;
+}
+
+#Latest_info_spending h4, #Latest_info_spending1 h4, #Latest_info_spending2 h4  {
+    margin: 20px 0 0 0;
+    text-decoration: underline;
+}
+
+#Latest_info_spending h5 ,#Latest_info_spending1 h5 {
+    margin: 10px 0 10px 0;
+}
+
+#Latest_info_spending p, #Latest_info_spending1 p {
+    margin: 10px 0 0 0;
+}
+
+#Total_comp_with_gdp {
+    margin: -1400px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+#Total_comp_with_gdp h3 , #Total_Spendings h3{
+    margin: 0 0 0 -200px;
+}
+#spend_gdp_filter_div, #spend_filter_div {
+    margin: 20px 0 0 -200px;
+}
+
+#Total_Spendings {
+    margin: -720px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+
+#Latest_info_spending1 {
+    margin: 20px 0 0 20px;
+    padding: 10px 5px 0 5px;
+    width: 300px;
+    height: 2300px;
+    background-color: powderblue;
+    text-align: center;
+}
+#percapita {
+    margin: -2300px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+#percapita h3 , #percapita_health h3, #percapita_edu h3{
+    margin: 0 0 0 -200px;
+}
+#military_per_filter_div, #health_per_filter_div, #edu_per_filter_div {
+    margin: 20px 0 0 -200px;
+}
+
+#percapita_health {
+    margin: -1520px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+
+#percapita_edu {
+    margin: -750px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+
+#Latest_info_spending2 {
+    margin: 20px 0 0 20px;
+    padding: 10px 5px 0 5px;
+    width: 300px;
+    height: 1700px;
+    background-color: powderblue;
+    text-align: center;
+}
+#growthrate {
+    margin: -1700px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+#growthrate h3 , #growthrate_military h3, #growthrate_healthcare h3{
+    margin: 0 0 0 -200px;
+}
+#growth_filter_div, #military_growth_filter_div, #health_growth_filter_div {
+    margin: 20px 0 0 -200px;
+}
+
+#growthrate_military {
+    margin: -1020px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+
+#growthrate_healthcare {
+    margin: -540px 0 0 -500px;
+    display: block;
+    float: right;
+    
+}
+
+
+#footer {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+#footer a {
+    color:darkslateblue;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #2F4F4F;
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

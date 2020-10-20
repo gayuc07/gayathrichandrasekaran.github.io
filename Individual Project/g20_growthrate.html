@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G20 Countries - Military, Health & Education Spending</title>
+    <link rel="stylesheet" href="/Individual Project/CSS/style copy.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/Individual Project/g20_Charts.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logobkg">
+                <div id="logo">
+                    <div id="logo text">
+                        <h1><a href="/Individual Project/g20_index.html">G20 COUNTRIES SPENDING ON MILITARY, HEALTH CARE AND EDUCATION</a></h1>
+                        <h2>(2011 - 2017)</h2>
+                    </div><!-- logo text -->
+                </div><!-- logo -->
+            </div><!-- Logobkg -->    
+            <div id="menubar">
+                <ul id="menu">
+                    <li ><a href="/Individual Project/g20_index.html">Home</a></li>
+                    <li><a href="/Individual Project/html/g20_spending.html">Spending data with GDP</a></li>
+                    <li  ><a href="/Individual Project/html/g20_percapita.html">Per Capita Splits</a></li>
+                    <li class="selected"><a href="/Individual Project/html/g20_growthrate.html">Growth Rate Trends</a></li>
+                </ul>
+            </div><!-- menubar-->          
+        </div><!-- Header -->
+    </div><!-- Main -->
+    <br>
+    <div id="Latest_info_spending2">
+        <br>
+        <br>
+        <br>
+        <h3 style="font-family: 'Aleo', serif; font-size: 20px;">2017 - Growth Rate Information</h3>
+        <br>
+        <br>
+        <h4 style="font-family: 'Alegreya'; font-size: 18px;">Military Spending</h4>
+        <br>
+        <P style="font-family: 'Alegreya'; font-size: 16px;">Max Growth Rate : 21.07% </P>
+        <br>
+        <P style="font-family: 'Alegreya'; font-size: 16px;">Min Growth Rate : -3.9% </P>
+        <br>
+        <h5 style="font-family: 'Alegreya'; font-size: 16px;">Top 3 Countries</h5>
+        <ul style="font-family: 'Alegreya'; font-size: 16px;">
+            <ul>1. Brazil</ul>
+            <ul>2. Argentina</ul>
+            <ul>3. Canada</ul>
+        </ul>
+        <br>
+        <br>
+        <h5 style="font-family: 'Alegreya'; font-size: 16px;">Least 3 Countries</h5>
+        <ul style="font-family: 'Alegreya'; font-size: 16px;">
+            <ul>1. Mexico</ul>
+            <ul>2. Russia</ul>
+            <ul>3. United Kingdom</ul>
+        </ul>
+        <br>
+        <br>
+        <h4 style="font-family: 'Alegreya'; font-size: 18px;">Health Care Spending</h4>
+        <br>
+        <P style="font-family: 'Alegreya'; font-size: 16px;">Max Growth Rate : 39.36% </P>
+        <br>
+        <P style="font-family: 'Alegreya'; font-size: 16px;">Min Growth Rate : -4.25% </P>
+        <br>
+        <h5 style="font-family: 'Alegreya'; font-size: 16px;">Top 3 Countries</h5>
+        <ul style="font-family: 'Alegreya'; font-size: 16px;">
+            <ul>1. Argentina</ul>
+            <ul>2. Russia</ul>
+            <ul>3. South Africa</ul>
+        </ul>
+        <br>
+        <br>
+        <h5 style="font-family: 'Alegreya'; font-size: 16px;">Least 3 Countries</h5>
+        <ul style="font-family: 'Alegreya'; font-size: 16px;">
+            <ul>1. Saudi Arabia</ul>
+            <ul>2. Turkey</ul>
+            <ul>3. United Kingdom</ul>
+        </ul>
+        <br>
+        <br>
+        <br>
+        <br> 
+        <p style="font-family: 'Alegreya'; font-size: 14px; text-align: justify;"> Most of the countries have shown negative growth rate in educational spending and positive trend in healthcare sector</p>
+        <br>
+        <p style="font-family: 'Alegreya'; font-size: 14px; text-align: justify;"> In the Military spending growth percentage, there were significant changes over the years in ranking among the countries. Two interesting facts from the data trend observed are, Except 2015, India has always shown an increasing growth in military spending. Saudi Arabia has shown a sudden fall of almost -26% in 2016. But they showed tremendous increase in 2017.   </p>
+        <br>
+        <p style="font-family: 'Alegreya'; font-size: 14px; text-align: justify;"> In Health Care spending growth percentage, Many countries showed a mixed growth percentage. However Saudi Arabia has slowed down their health care expenditure from 2011-2017. South Africa, Argentia, Russia are having significant growth in 2017. </p>
+        <br>
+    </div> <!-- Latest Information-->
+    <div id='growthrate'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Overall Growth Rate Trend</h3>
+        <div id="tot_growth_charts">
+            <div id='growth_filter_div' style="font-family: 'Aleo', serif; font-size: 18px"></div>
+            <div id = "growth_comp_response_div" ></div>
+        </div>             
+    </div>
+    <br>
+    <br>
+    <div id='growthrate_military'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Military Spending Growth Rate Trend</h3>
+        <div id="mil_growth_charts">
+            <div id='military_growth_filter_div' style="font-family: 'Aleo', serif; font-size: 18px"></div>
+            <div id = "mil_growth_response_div" ></div>
+        </div>             
+    </div>
+    <br>
+    <br>
+    <div id='growthrate_healthcare'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Health Care Spending Growth Rate Trend</h3>
+        <div id="health_growth_charts">
+            <div id='health_growth_filter_div' style="font-family: 'Aleo', serif; font-size: 18px"></div>
+            <div id = "health_growth_response_div" ></div>
+        </div>             
+    </div>
+    <br>
+
+    <div id="footer">
+        Copyright &copy; 2020 | Developed by Gayathri Chandrasekaran | 
+        <a href="https://github.com/gayuc07/gayathrichandrasekaran.github.io">github</a> |
+        <a href="">Zendo</a>
+        <i class="fab fa-github-square"></i>
+    </div>
+
+    <br>
+  
+</body>
+</html>
