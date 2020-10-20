@@ -1,0 +1,170 @@
+html {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: normal 0.78em  arial, sans-serif;
+    background: #444;
+    color: #555;
+}
+
+p {
+    padding: 0 0 16px 0;
+    line-height: 1.7em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font: 175% "century gothic", aerial, sans_seriff;
+    color: #111;
+    margin: 0 0 15px 0;
+    padding: 15px 0 15px 0;
+
+}
+
+h2 {
+    color: #444;
+    padding: 0px 20px 0px 0;
+}
+
+h4, h5, h6 {
+    margin: 0;
+    padding: 0 0 5px 0;
+    font: normal 120% arial, sans-serif;
+}
+
+h5, h6 {
+    font: italic 95% arial, sans-serif;
+    padding: 0 0 15px 0;
+    color: #000;
+}
+
+h6 {
+    color: #000;
+}
+
+a {
+    outline: none;
+    color: #111;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul {
+    margin: 2px 0 22px 17px;
+}
+
+ul li{
+    list-style-type: circle;
+    margin: 0 0 6px 0;
+    padding: 0 0 4px 5px;
+}
+
+#main, #header, #logo, #menubar, #site-content, #footer {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#main {
+    width: 910px;
+    background: url(content.png) repeat-y;
+
+}
+
+#Header {
+    width: 890px;
+    background: url(back.png) repeat-x;
+}
+
+#logo {
+    width: 890px;
+    position: relative;
+    height: 200px;
+    color: #444
+}
+
+#logotext {
+    position: absolute;
+    top: 0px;
+    left: 30px;
+}
+
+#logotext h1, #logotext h2 {
+    font: normal 300% 'centuary gothic', arial, sans-serif;
+    border-bottom: 0;
+    margin: 0;
+}
+
+#logotext h1, #logotext h1 a, #logotext h1 a:hover {
+    padding: 10px 0 0 0;
+    color: #fff;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+}
+
+#logotext h2 {
+    font-size: 130%;
+    padding: 0;
+    color: #444;
+}
+
+#menubar {
+    width: 890px;
+    height: 35px;
+    padding: 8px 0 0 0;
+    margin: -45px 0 0 0;
+    position: relative;
+    z-index: 1;
+    float: right;
+}
+
+ul#menu {
+    float: right;
+    margin: 0;
+    
+}
+
+ul#menu li {
+    float: left;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 6px;
+    list-style: none;
+
+}
+
+ul#menu li a {
+    letter-spacing: 0em;
+    font: normal 105% arial, sans-serif;
+    text-transform: uppercase;
+    display: block;
+    float: left;
+    text-decoration: none;
+    padding: 9px 22px 5px 16px;
+    text-align: center;
+    color: #fff;
+    border: 0;
+}
+
+ul#menu li.selected a {
+    height: 25px;
+    color: #111;
+    padding: 7px 22px 5px 16px;
+
+
+}
+
+ul#menu li.selected {
+    margin: 7px 0 0 0;
+    background: #f8f8f8;
+}
+
+ul#menu li a:hover {
+    color: #888;
+}
