@@ -1,0 +1,652 @@
+html {
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font: normal 0.78em  arial, sans-serif;
+    color: #555;
+    background-color: #F5F5F5;
+    width: 1350px;
+}
+
+#header {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #E6E6FA;
+    height: 100px;
+    width: 100%;
+    
+}
+
+#logobkg {
+    width: 200px;
+    height: 100px;
+    background: url(logo.jpg) no-repeat;
+    background-size: contain;
+}
+
+
+h1 {
+    padding: 20px 0 0 120px;
+    font: 230% "century gothic", aerial, sans_seriff;
+    color: #111;
+    margin: 0 0 15px 0;
+    width: 1350px;
+    text-decoration: none;
+    border-bottom: 0;
+    margin: 0;
+}
+h2 {
+    padding: 0 0 0 120px;
+    font: 180% "century gothic", aerial, sans_seriff;
+    text-align: center;
+    width: 700px;
+ 
+}
+
+h1 a {
+    text-decoration: none;
+}
+
+#menubar {
+    width: 100%;
+    height: 35px;
+    padding: 8px 170px 0 100px;
+    margin: -40px 0 0 300px;
+    position: relative;
+    z-index: 1;
+    float: right;
+}
+
+ul#menu {
+    float: right;
+    margin: 0;
+    
+}
+
+ul#menu li {
+    float: left;
+    margin: 5px 0 0 0;
+    padding: 0 0 0 6px;
+    list-style: none;
+
+}
+
+ul#menu li a {
+    letter-spacing: 0em;
+    font: bold 105% arial, sans-serif;
+    text-transform: uppercase;
+    display: block;
+    float: left;
+    text-decoration: none;
+    padding: 9px 22px 5px 16px;
+    text-align: center;
+    color: #2F4F4F;
+    border: 0;
+}
+
+ul#menu li.selected a {
+    height: 25px;
+    color: #111;
+    padding: 7px 22px 5px 16px;
+
+
+}
+
+ul#menu li.selected {
+    margin: 7px 0 0 0;
+    background: #f8f8f8;
+}
+
+ul#menu li a:hover {
+    color:	#9370DB;
+}
+
+
+
+#spend_text, #g20_participants, #Datasource {
+    width: 1200px;
+    height: 200px
+}
+
+#spend_text h3 {
+    margin: 50px 0 10px 50px;
+    
+}
+
+#spend_text p {
+    margin: 10px 0 10px 50px;
+    text-align: justify;
+    
+}
+
+#US_temp_change h4 {
+    margin: -30px 0 20px 50px;
+    
+}
+
+#Datasource h3 {
+    margin: 20px 0 10px 50px;
+    
+}
+
+#Datasource p {
+    margin: 10px 0 10px 50px;
+    
+}
+
+#latest h3 {
+    margin: 20px 0 10px 50px;
+    
+}
+
+#Datasource ul li {
+    list-style-type: none;
+    background: url(bullet.png) no-repeat;
+    margin: 0 0 0 60px;
+    padding: 0 0 0 20px;
+    line-height: 1.5em;
+}
+
+#latest ul li {
+    list-style-type: none;
+    background: url(bullet.png) no-repeat;
+    margin: 0 0 0 60px;
+    padding: 0 0 0 20px;
+    line-height: 1.5em;
+}
+
+
+
+#surface_temp_text h3 {
+    margin: 10px 0 0px 10px;
+    
+}
+
+#Global_Temperature_Anamolies h3 {
+    margin: 10px 0 0px 10px;
+    
+}
+
+#Global_Temperature_Anamolies p {
+    width: 550px;
+    height: 220px;
+    padding: 10px 10px 10px 20px;
+    margin: 10px 0 10px 50px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em;    
+}
+
+#global_temp_ana {
+    margin: -310px 110px 0 100px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 220px;
+    text-align: center;
+    
+}
+
+#artic_sea {
+    width: 500px;
+    height: 100px;
+    padding: 10px 10px 10px 20px;
+    margin: -40px 0 20px 0px;
+}
+
+#Arctic_ice_Anamolies p {
+    margin: 30px 70px 0 40px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 150px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em; 
+
+    
+}
+
+#Arctic_ice_Anamolies h3 {
+    margin: 10px 0 0px 10px;
+    
+}
+
+#warmest_yr {
+    margin: 20px 0 0 20px;
+    padding: 10px 5px 0 5px;
+    width: 200px;
+    height: 50px;
+    background-color: powderblue;
+    text-align: center;
+    font: bold;
+}
+
+#global_temps {
+    margin: -60px 780px 0 300px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 200px;
+    height: 50px;
+    background-color: powderblue;
+    text-align: center;
+    
+}
+
+#global_ice {
+    margin: -60px 410px 0 300px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 200px;
+    height: 50px;
+    background-color: powderblue;
+    text-align: center;
+    
+}
+
+#ice_sheets {
+    margin: -60px 50px 0 300px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 200px;
+    height: 50px;
+    background-color: powderblue;
+    text-align: center;
+    
+}
+
+#Antarctic_ice_Anamolies p {
+    width: 550px;
+    height: 150px;
+    padding: 10px 10px 10px 30px;
+    margin: 0 0 10px 10px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em;    
+}
+
+#antartic_sea {
+    margin: -300px 110px 0 100px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 220px;
+    text-align: center;
+    
+}
+
+
+#Antarctic_ice_Anamolies h3 {
+    margin: 150px 0 5px 10px;
+    
+}
+
+
+#footer {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+#co2_emissions h3 {
+    margin: 20px 0 0px 10px;
+    
+}
+
+#co2_emissions p {
+    margin: 10px 0 0px 10px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em; 
+    
+    
+}
+
+#scatter_plot {
+    margin: -635px 100px 0 10px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 220px;
+    text-align: center;
+    
+}
+
+#global_em {
+    width: 500px;
+    height: 100px;
+    padding: 10px 10px 10px 20px;
+    margin: -10px 10px 500px 10px;
+}
+
+#footer1 {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    margin: 100px 0 0 0;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+#co2_country h3 {
+    margin: -150px 0 0px 10px;
+    
+}
+
+#co2_country p {
+    margin: 10px 0 0px 10px;
+    text-align: justify;
+    border-spacing: 17em;
+    line-height: 2em;    
+}
+
+#selectButton {
+    width: 100px;
+    margin: 10px 100px 0px 10px;
+    font-size: large;
+    align-items: center;
+}
+
+#button_year {
+    margin: 10px 100px 0px 350px;
+    font-size: medium;
+    align-items: center;
+}
+
+#bubble_chart {
+    width: 1350px;
+    height: 100px;
+    padding: 10px 10px 100px 330px;
+    margin: 10px 0 20px 0px;
+    align-items: center;
+}
+
+#eco_loss h3 {
+    margin: 10px 0 0px 10px;
+    
+}
+
+#eco_loss p {
+    width: 550px;
+    height: 220px;
+    padding: 10px 10px 10px 20px;
+    margin: 50px 0 10px 50px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em;    
+}
+
+#economic_loss {
+    margin: -350px 110px 0 100px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 220px;
+    text-align: center;
+    
+}
+
+
+#footer3 {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    margin: 400px 0 0 10px;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+
+#cri_loss {
+    width: 500px;
+    height: 100px;
+    padding: 10px 10px 10px 20px;
+    margin: 10px 0 20px 0px;
+}
+
+#climate_risk_index p {
+    margin: 100px 70px 0 40px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 150px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em; 
+
+    
+}
+
+#climate_risk_index h3 {
+    margin: 150px 0 10px 20px;
+    
+}
+
+#selectButton1 {
+    width: 100px;
+    margin: 10px 100px 0px 10px;
+    font-size: large;
+    align-items: center;
+}
+
+#bubble_cri p {
+
+    margin: 20px 0px 0px 20px;
+    font-size: large;
+
+}
+
+#renew_energy_Sector p {
+    margin: 150px 70px 0 40px;
+    padding: 10px 5px 0 5px;
+    float: right;
+    width: 500px;
+    height: 150px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em; 
+
+    
+}
+
+#renew_energy_Sector h3 {
+    margin: 20px 0 10px 20px;
+    
+}
+
+#spending_response_div {
+    width: 300px;
+    height: 100px;
+    padding: 10px 10px 10px 20px;
+    margin: 10px 0 20px 0px;
+}
+
+#spend_gdp_filter_div{
+
+    margin: 10px 0 10px 20px;
+
+}
+
+#renew_energy_country p {
+    margin: 20px 0 0 10px;
+    padding: 10px 5px 0 5px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em;  
+}
+
+#renew_energy_country h3 {
+    margin: 100px 0 10px 20px;
+    
+}
+
+#invest_country {
+    margin: 20px 0 10px 10px;
+
+}
+
+#renew_energy_consump p {
+    margin: 20px 0 0 10px;
+    padding: 10px 5px 0 5px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em;  
+}
+
+#renew_energy_consump h3 {
+    margin: -90px 0 10px 20px;
+    
+}
+
+#renew_consum {
+    margin: 20px 0 10px 20px;
+
+}
+
+#footer5 {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    margin: 50px 0 0 10px;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+
+#climate_performance_index p {
+    margin: 20px 0 0 10px;
+    padding: 10px 5px 0 5px;
+    text-align: justify;
+    background-color: white;
+    border-spacing: 17em;
+    line-height: 2em;  
+}
+
+#climate_performance_index h3 {
+    margin: 20px 0 10px 20px;
+    
+}
+
+#climate_change {
+    margin: 20px 0 10px 20px;
+
+}
+
+
+#climate_performance_index ul li {
+    list-style-type: none;
+    background: url(bullet.png) no-repeat;
+    margin: 0 0 0 60px;
+    padding: 0 0 0 20px;
+    border-spacing: 17em;
+    line-height: 2em; 
+}
+
+
+#selectButton2 {
+    width: 100px;
+    margin: 10px 100px 0px 10px;
+    font-size: large;
+    align-items: center;
+}
+
+#climate_button p{
+    margin: 10px 100px 0px 10px;
+    font-size: large;
+    align-items: center;
+
+}
+
+
+#climate_performance_index ul li {
+    list-style-type: none;
+    background: url(bullet.png) no-repeat;
+    margin: 0 0 0 60px;
+    padding: 0 0 0 20px;
+    border-spacing: 17em;
+    line-height: 2em; 
+}
+
+
+#footer7 {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    margin: 50px 0 0 10px;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+
+
+#footer4 {
+    width: 1350px;
+    height: 33px;
+    padding: 20px 0 4px 0;
+    margin: 500px 0 0 10px;
+    text-align: center;
+    background:  #E6E6FA;
+    color: mediumslateblue;
+    border-top: 1px solid #fff;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-size: 80%;
+
+}
+
+#footer a {
+    color:darkslateblue;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    color: #2F4F4F;
+    text-decoration: underline;
+}
