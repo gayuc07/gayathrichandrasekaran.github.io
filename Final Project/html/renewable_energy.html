@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Change</title>
+    <link rel="stylesheet" href="/Final Project/style_css.css">
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="/Final Project/google_charts.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logobkg">
+                <div id="logo">
+                    <div id="logo text">
+                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                    </div><!-- logo text -->
+                </div><!-- logo -->
+            </div><!-- Logobkg -->    
+            <div id="menubar">
+                <ul id="menu">
+                    <li><a href="/Final Project/index.html">Home</a></li>
+                    <li ><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li ><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li ><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li class="selected"><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                </ul>
+            </div><!-- menubar-->          
+        </div><!-- Header -->
+    </div><!-- Main -->
+    <div id='renew_energy_Sector'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Renewable Enery Investment by Sector</h3> 
+        <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+            With increase in climate risk index, all developed countries and developing moving their interest toward the renewable energy sources. There are many sources for the renewable energy available now a days, such as biomass,bio fuel, wind, solar, geothermal,hydro, etc. Among this, wind and solar energy investment are the highest among the nations.
+            Although investment in wind energy were consistent for last 10 years, investment in the solar energy has soured since 2004. In 2018, More than 50% global investment on renewable energy is over the solar energy followed by wind energy. 
+        </p>
+    </div>
+    <div id='Total_comp_with_gdp'>
+        <div id="gdp_comp_charts">
+            <div id='spend_gdp_filter_div' style="font-family: 'Aleo', serif; font-size: 18px"></div>
+            <div id = "spending_response_div" style="width: 800px; height: 400px;"></div>
+        </div>             
+    </div>
+    <div id='renew_energy_country'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Renewable Enery Investment by Country</h3> 
+        <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+            As interest over the clean energy usage has increased, in 2019, total investment on the clean energy is approximately equal to the 302 Billion USD. Their is an significant rise(10 times) in the investment over last two decades. China and united states are the highest investers in the clean energy. They invested close to 90 billion USD in 2019. 
+        </p>
+    </div>
+    <div id="invest_country"></div>
+    <script>
+        /* This Scripts plots an bar plot using d3 for clean energy investment by countries in 2019 */
+        //set the geometry
+        var margin2 = {top: 10, right: 30, bottom: 50, left: 80},
+        width = 1260 - margin2.left - margin2.right,
+        height = 600 - margin2.top - margin2.bottom;
+        //initialize SVG to draw bars
+        var svg = d3.select("#invest_country")
+            .append("svg")
+            .attr("width", width + margin2.left + margin2.right)
+            .attr("height", height + margin2.top + margin2.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin2.left + "," + margin2.top + ")");
+            //loading the data
+        d3.csv("/Final Project/renewable_energy_investment.csv", function(data){
+            // X scale
+            var x = d3.scaleLinear()
+                        .domain([0,100])
+                        .range([0,width]);
+            svg.append("g")
+                .attr("transform","translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+              // Y axis
+            var y = d3.scaleBand()
+                .range([ 0, height ])
+                .domain(data.map(function(d) { 
+                    return d.Country; }))
+                .padding(.1);
+            svg.append("g")
+                .call(d3.axisLeft(y))
+ 
+            // Bars
+            svg.selectAll("mybar")
+                .data(data)
+                .enter()
+                .append("rect")
+                    .attr("y", function(d) { 
+                        if (d.year != "") {
+                            return y(d.Country);
+                        }
+                         })
+                    .attr("height", y.bandwidth())
+                    .attr("fill", "#69b3a2")
+                    // tranistion effects - no bars at start
+                    .attr("width", function(d) { 
+                        if (d.Investments != "")
+                        {return  x(0);} }) 
+                    .attr("x", function(d) { 
+                        if (d.Investments != "") {
+                            return x(0);                        }
+                         })
+                         
+            svg.selectAll("rect")
+                    .transition()
+                    .duration(800)
+                    .attr("width", function(d) { 
+                    if (d.Investments != "")
+                    {return  x(d.Investments);} })
+                    .attr("x", function(d) { 
+                    if (d.Investments != "") {
+                            return x(0);                        }
+                        })
+                    .delay(function(d,i){return(i*100)})  
+             // text label for the x axis
+             svg.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin2.top + 30) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Investments in Billion US dollars");
+                  // text label for the y axis
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin2.left)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Country"); 
+        })
+    </script>
+        <div id='renew_energy_consump'>
+            <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Renewable Enery Consumption by Country</h3> 
+            <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+                Despite rapid increase in the interest for investing in the renewable energy, cosumption rate is far behind the coal, natural gas and other energy consumption rate. However, In last two decades, we could observe a significant increase in the global consumption rate of about 29 exajoules. Again, China and united states are top of the list in the energy consumption stats. 
+                Although, investment in the solar energy is highest, in terms of the comsumption, wind and hydro energy tops the spot.  
+            </p>
+        </div>
+    <div id="renew_consum"></div>
+    <script>
+        var margin1 = {top: 10, right: 30, bottom: 50, left: 60},
+         width = 1260 - margin1.left - margin1.right,
+         height = 450 - margin1.top - margin1.bottom;
+         var svg2 = d3.select("#renew_consum")
+             .append("svg")
+             .attr("width", width + margin1.left + margin1.right)
+             .attr("height", height + margin1.top + margin1.bottom)
+             .append("g")
+             .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+             d3.csv("/Final Project/Renewable_Enery_Consumption.csv", function(data){
+                 top_countries = ['China','United States','India','Russia','Japan','Germany','France','Spain','Sweden','Canada','Mexico','Vietnam','Brazil','Turkey','Australia','United Kingdom','Norway','Italy','Venezuela','Austria'];
+             var fil_data = data.filter(function(d,i){
+                 return top_countries.indexOf(d.Entity) >= 0;
+             })
+             var year_fil = fil_data.filter(function(d){
+                 return d.Year == '2019';
+             })           
+             var subgroups = data.columns.slice(3)
+             // Add X axis
+             var x = d3.scaleBand()
+                 .domain(top_countries)
+                 .range([0, width])
+                 .padding([0.1])
+             svg2.append("g")
+                 .attr("transform", "translate(0," + height + ")")
+                 .call(d3.axisBottom(x).tickSizeOuter(0));
+             // Add Y axis
+             var y = d3.scaleLinear()
+                 .domain([0, 2100])
+                 .range([ height, 0 ]);
+             svg2.append("g")
+                 .call(d3.axisLeft(y));
+               // color palette = one color per subgroup
+             var color = d3.scaleOrdinal()
+                 .domain(subgroups)
+                 .range(['#fa61ff','#7061ff','#ffadad','#9966ff']);
+                         //stack the data? --> stack per subgroup
+             var stackedData = d3.stack()
+                 .keys(subgroups)
+                 (year_fil);
+                     // ----------------
+         // Create a tooltip
+         // ----------------
+         var tooltip = d3.select("#renew_consum")
+             .append("div")
+             .style("opacity", 0)
+             .attr("class", "tooltip")
+             .style("background-color", "grey")
+             .style("border", "solid")
+             .style("border-width", "1px")
+             .style("border-radius", "5px")
+             .style("padding", "10px")
+             .style("color", "white")
+           // Three function that change the tooltip when user hover / move / leave a cell
+         var mouseover = function(d) {
+             var subgroupName = d3.select(this.parentNode).datum().key;
+             var subgroupValue = d.data[subgroupName];
+             tooltip.html("Type: " + subgroupName + "<br>" + "Value: " + subgroupValue)
+                 .style("opacity", 1)
+         }
+         var mousemove = function(d) {
+             tooltip
+             .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+             .style("top", (d3.mouse(this)[1]) + "px")
+         }
+ 
+         var mouseleave = function(d) {
+             tooltip
+             .style("opacity", 0)
+         }
+         // Show the bars
+ 
+         var stacks = svg2.append("g")
+             .selectAll("g")
+             // Enter in the stack data = loop key per key = group per group
+             .data(stackedData)
+             .enter().append("g")
+             .attr("fill", function(d,i) { 
+                 return color(d[i].data.Entity); })
+             .selectAll("rect")
+             // enter a second time = loop subgroup per subgroup to add all rectangles
+             .data(function(d) { 
+                 console.log(d)
+                 return d; })
+             .enter().append("rect")
+                 .attr("x", function(d) { 
+                     return x(d.data.Entity); })
+                 .attr("y", function(d) { return y(d[1]); })
+                 .attr("height", function(d) { return y(d[0]) - y(d[1]); })
+                 .attr("width",x.bandwidth())
+                 .attr("stroke", "grey")
+             .on("mouseover", mouseover)
+             .on("mousemove", mousemove)
+             .on("mouseleave", mouseleave)
+         // text label for the x axis
+         svg2.append("text")             
+         .attr("transform",
+                 "translate(" + (width/2) + " ," + 
+                             (height + margin1.top + 30) + ")")
+         .style("text-anchor", "middle")
+         .transition()
+         .duration(2000)
+         .delay(2000)
+         .text("Country");
+         // text label for the y axis
+     svg2.append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 0 - margin1.left)
+         .attr("x",0 - (height / 2))
+         .attr("dy", "1em")
+         .style("text-anchor", "middle")
+         .transition()
+         .duration(2000)
+         .delay(2000)
+         .text("Energy Consumption Twh"); 
+     })
+     </script>
+
+
+
+
+        <div id="footer5">
+            Copyright &copy; 2020 | Developed by Gayathri Chandrasekaran | 
+            <a href="https://github.com/gayuc07/gayathrichandrasekaran.github.io">github</a> |
+            <a href="https://zenodo.org/record/4110968#.X491GRKSnD4">Zendo</a>
+            <i class="fab fa-github-square"></i>
+        </div>   
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Change</title>
+    <link rel="stylesheet" href="/Final Project/style_css.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <style>
+        .state {
+            stroke: white;
+        }
+        #map_title {
+          top: 20px;
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+          
+        }
+        #clock {
+          left: 150px;
+          font-size: xx-large;
+          font-style: italic;
+          font-family: Georgia;
+          text-align: center;
+          color: gray;
+        }
+        .state-label {
+        font-weight: 500;
+        text-transform: uppercase;
+        text-anchor: middle;
+        opacity: 0.3;
+        color: #000;
+        font-family: arial, helvetica, sans-serif;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.333em;}
+
+        #map, #legend1 {
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logobkg">
+                <div id="logo">
+                    <div id="logo text">
+                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                    </div><!-- logo text -->
+                </div><!-- logo -->
+            </div><!-- Logobkg -->    
+            <div id="menubar">
+                <ul id="menu">
+                    <li><a href="/Final Project/index.html">Home</a></li>
+                    <li class="selected"><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                </ul>
+            </div><!-- menubar-->          
+        </div><!-- Header -->
+    </div><!-- Main -->
+    <br>
+    <div id="surface_temp_text" >
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Global Warming</h3>  
+    </div><!--surface_temp_text-->
+    <div id="warmest_yr">
+        <ul style="font-family: 'Aleo', serif; font-size: 14px;">Warmest Year of the Decade:  2019</ul>
+    </div>
+    <div id="global_temps">
+        <ul style="font-family: 'Aleo', serif; font-size: 14px;">Global Temperature(increase): 2.0 F</ul>
+    </div>
+    <div id="global_ice">
+        <ul style="font-family: 'Aleo', serif; font-size: 14px;">Artic Ice Minimum (decrease): 13.1 percent per decade </ul>
+    </div>
+    <div id="ice_sheets">
+        <ul style="font-family: 'Aleo', serif; font-size: 14px;">Ice Sheets(decrease):   428 billions metric tons per year </ul>
+    </div>
+    <br>
+    <br>
+    <div id="Global_Temperature_Anamolies">
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Global Land and Ocean Temperature Anamolies</h3> 
+        <p>
+            The current weather pattern shows consistent increase in the global temperature and marks the record temperature increase in last 10 years.
+            In 2019, the earth's surface temperature is 0.95 degree warmer than the 20th century average. This may result to many weather related catastrophes like storms,floods and droughts. These events brings huge economic loss to the country. 
+            This statistics represents the global land & ocean temperature anamolies from 1989 to 2019. This is calulated keeping average of 20th century temperature as baseline. Positive anamolies shows that temperature is warmer than baseline while negative indicates the temperature is lower than the baseline. 
+            From the line plot, comparing the current temperature, the rate of temperature change is three times warmer than temperature at the end of 1989. 
+        </p>
+    </div>
+    <div id="global_temp_ana"></div>
+    <script>
+        /* This Scripts plots an line plot using d3 for global land and ocean temperature anamolies from 1989 - 2019*/
+        //set the geometry
+        var margin1 = {top: 50, right: 30, bottom: 130, left: 60},
+        width = 600 - margin1.left - margin1.right,
+        height = 400 - margin1.top - margin1.bottom;
+        // create an svg element
+        var svg = d3.select("#global_temp_ana")
+            .append("svg")
+            .attr("width", width + margin1.left + margin1.right)
+            .attr("height", height + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+        // Add the data to the svg to draw the line plot
+        d3.csv("/Final Project/Global_details.csv",  function(d){
+                    return { date : d3.timeParse("%Y")(d.Year), value : d.temp_anamolies_c }
+                            },
+                            function(data){
+            var x = d3.scaleTime()
+                        .domain(d3.extent(data, function(d){
+                            return d.date;
+                        }))
+                        .range([0.2,width]);
+            svg.append("g")
+                .attr("transform","translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+            // Global temp co ordinates
+            var max = d3.max(data, function(d){
+                return +d.value;
+            })
+
+            var y = d3.scaleLinear()
+                        .domain([0.2,max])
+                        .range([height,0]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+                // Set the gradient
+            svg.append("linearGradient")
+            .attr("id", "line-gradient")
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", y(0))
+            .attr("x2", 0)
+            .attr("y2", y(max))
+            .selectAll("stop")
+                .data([
+                {offset: "0%", color: "blue"},
+                {offset: "100%", color: "red"}
+                ])
+            .enter().append("stop")
+                .attr("offset", function(d) { return d.offset; })
+                .attr("stop-color", function(d) { return d.color; });
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "url(#line-gradient)" )
+                .attr("stroke-width", 2)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.date) })
+                    .y(function(d) { return y(d.value) })
+                    )
+             // Add the points
+                svg
+                .append("g")
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                    .attr("cx", function(d) { return x(d.date) } )
+                    .attr("cy", function(d) { return y(d.value) } )
+                    .attr("r", 5)
+                    .attr("fill", "teal")
+              // text label for the x axis
+                svg.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin1.top -5 ) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Year");
+                  // text label for the y axis
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin1.left +10)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Land & Ocean Temperature Anamolies(C)"); 
+        });
+    </script> 
+    <br>
+    <br>
+    <div id="Arctic_ice_Anamolies">
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Northern Hemisphere - Arctic Sea Extend Anamolies</h3> 
+        <br>
+        <br>
+        <p>
+            From the previous section results, huge increase in the global temperature is observed. This sudden change in the global warming rate, decreases the level of the artic sea. In September 2020, the Artic sea reached its minimum of 3.74 million square kilometers. This is the second lowest minimum rate recorded. This statistics shows the northern hemisphere (i.e) artic sea extend for the period of 1989 to 2019 in millions square killometers. 
+            Arctic ice melting at the rate of 13 percent per decade since 1979. 
+        </p>
+    </div>
+    <div id = "artic_sea"></div>
+    <script>
+        /* This Scripts plots an line plot using d3 for Northern hemisphere arctic ice extend from 1989 - 2019*/
+        var margin = {top: 50, right: 30, bottom: 130, left: 60},
+        width = 600 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+        //creating svg to draw the line plot
+        var svg1 = d3.select("#artic_sea")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+        //calling the source file
+        d3.csv("/Final Project/Global_details.csv",  function(d){
+                    return { date : d3.timeParse("%Y")(d.Year), value : d.artic_sea_extend }
+                            },
+                            function(data){
+            //setting the scales
+            var x = d3.scaleTime()
+                        .domain(d3.extent(data, function(d){
+                            return d.date;
+                        }))
+                        .range([0,width]);
+            svg1.append("g")
+                .attr("transform","translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+            // Global temp co ordinates
+            var max = d3.max(data, function(d){
+                return +d.value;
+            })
+            var min = d3.min(data, function(d){
+                return +d.value;
+            })
+            var y = d3.scaleLinear()
+                        .domain([min-5,max])
+                        .range([height,0]);
+            svg1.append("g")
+                .call(d3.axisLeft(y));
+                // Set the gradient
+            svg1.append("linearGradient")
+            .attr("id", "line-gradient")
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", y(0))
+            .attr("x2", 0)
+            .attr("y2", y(max))
+            .selectAll("stop")
+                .data([
+                {offset: "0%", color: "blue"},
+                {offset: "100%", color: "red"}
+                ])
+            .enter().append("stop")
+                .attr("offset", function(d) { return d.offset; })
+                .attr("stop-color", function(d) { return d.color; });
+            svg1.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "url(#line-gradient)" )
+                .attr("stroke-width", 2)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.date) })
+                    .y(function(d) { return y(d.value) })
+                    )
+            svg1.append("g")
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                    .attr("cx", function(d) { return x(d.date) } )
+                    .attr("cy", function(d) { return y(d.value) } )
+                    .attr("r", 5)
+                    .attr("fill", "teal")
+              // text label for the x axis
+                svg1.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin.top) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Year");
+                  // text label for the y axis
+                svg1.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin.left + 5)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Arctic Sea Extend Anamolies (millions km^2)"); 
+        });
+    </script>   
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="Antarctic_ice_Anamolies">
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Southern Hemisphere - Antarctic Sea Extend Anamolies</h3> 
+        <br>
+        <br>
+        <p>
+            This statistics shows the southern hemisphere (i.e) antartic sea extend for the period of 1989 to 2019 in millions square killometers. Recent observations from 11 satellite mission monitoring the Greenland and antarctic ice sheets reveals that these regions are losing ice six times faster than they were in 1990's.
+            This may even lead to the an extra 6.7 inches of rise in sea level by 2100. At the northern tip of the continent, ice-shelf collapse at the Antarctic Peninsula has driven an increase of 27.6 billion tons (25 billion metric tons) in ice loss per year since the early 2000s. <sup><a href="https://climate.nasa.gov/news/2749/ramp-up-in-antarctic-ice-loss-speeds-sea-level-rise/">[1]</a></sup> 
+        </p>
+    </div>
+    <div id = "antartic_sea"></div>
+    <script>
+        /* This Scripts plots an line plot using d3 for southern hemisphere antarctic ice extend from 1989 - 2019*/
+        var margin = {top: 50, right: 30, bottom: 130, left: 60},
+        width = 600 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
+        var svg2 = d3.select("#antartic_sea")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+        d3.csv("/Final Project/Global_details.csv",  function(d){
+                    return { date : d3.timeParse("%Y")(d.Year), value : d.Antartic_sea_extend }
+                            },
+                            function(data){
+            var x = d3.scaleTime()
+                        .domain(d3.extent(data, function(d){
+                            return d.date;
+                        }))
+                        .range([0,width]);
+            svg2.append("g")
+                .attr("transform","translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+            // Global temp co ordinates
+            var max = d3.max(data, function(d){
+                return +d.value;
+            })
+            var min = d3.min(data, function(d){
+                return +d.value;
+            })
+            var y = d3.scaleLinear()
+                        .domain([min-5,max])
+                        .range([height,0]);
+            
+            svg2.append("g")
+                .call(d3.axisLeft(y));
+                // Set the gradient
+                svg2.append("linearGradient")
+            .attr("id", "line-gradient")
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", y(0))
+            .attr("x2", 0)
+            .attr("y2", y(max))
+            .selectAll("stop")
+                .data([
+                {offset: "0%", color: "blue"},
+                {offset: "100%", color: "red"}
+                ])
+            .enter().append("stop")
+                .attr("offset", function(d) { return d.offset; })
+                .attr("stop-color", function(d) { return d.color; });
+            svg2.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "url(#line-gradient)" )
+                .attr("stroke-width", 2)
+                .attr("d", d3.line()
+                    .x(function(d) { return x(d.date) })
+                    .y(function(d) { return y(d.value) })
+                    )
+            svg2.append("g")
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                    .attr("cx", function(d) { return x(d.date) } )
+                    .attr("cy", function(d) { return y(d.value) } )
+                    .attr("r", 5)
+                    .attr("fill", "teal")
+              // text label for the x axis
+                svg2.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin.top) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Year");
+                  // text label for the y axis
+                svg2.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin.left+5)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Antarctic Sea Extend Anamolies (millions km^2)"); 
+        });
+    </script>   
+    <div id="footer1">
+        Copyright &copy; 2020 | Developed by Gayathri Chandrasekaran | 
+        <a href="https://github.com/gayuc07/gayathrichandrasekaran.github.io">github</a> |
+        <a href="https://zenodo.org/record/4110968#.X491GRKSnD4">Zendo</a>
+        <i class="fab fa-github-square"></i>
+    </div>
+    <br>    
+</body>
+</html>

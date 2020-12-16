@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Change</title>
+    <link rel="stylesheet" href="/Final Project/style_css.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <style>
+        .state {
+            stroke: white;
+        }
+        #map_title {
+          top: 20px;
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+          
+        }
+        #clock {
+          left: 150px;
+          font-size: xx-large;
+          font-style: italic;
+          font-family: Georgia;
+          text-align: center;
+          color: gray;
+        }
+        .state-label {
+        font-weight: 500;
+        text-transform: uppercase;
+        text-anchor: middle;
+        opacity: 0.3;
+        color: #000;
+        font-family: arial, helvetica, sans-serif;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.333em;}
+
+        #map, #legend1 {
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logobkg">
+                <div id="logo">
+                    <div id="logo text">
+                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                    </div><!-- logo text -->
+                </div><!-- logo -->
+            </div><!-- Logobkg -->    
+            <div id="menubar">
+                <ul id="menu">
+                    <li class="selected"><a href="/Final Project/index.html">Home</a></li>
+                    <li><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                </ul>
+            </div><!-- menubar-->          
+        </div><!-- Header -->
+    </div><!-- Main -->
+    <br>
+    <div id="spend_text" >
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Climate Change</h3>
+        <p style="font-family: 'Alegreya'; font-size: 16px;">Climate change is the abnormal variation in temperature/rainfall of the region over a long period of time and it is one of the biggest threats of the modern age. Many scientific evidence 
+            shows that warming of the climate system is undeniable. This is caused either by outside forces or by processes inside the earth mainly due to the human activity, which has tremendously increased over the years.
+            The constant climate monitoring provides a greater insight to the decision maker around the world to evaluate the impact and prepare them to combat it. Also, this helps individual countries to learn from each other about effective approaches in reducing the climate vulnerability in near future. <p>
+    </div><!--Spend text-->
+    <br>
+    <div id="US_temp_change">
+        <h4 style="font-family: 'Aleo', serif; font-size: 22px;">US - Annual Temperature change Anamolies (1950-2019)</h4>
+        <div id="wrapper">	
+            <span id="clock">1950</span>
+            <div id="map"></div>
+            <div id ='legend1'></div>
+          </div>
+    </div><!--US_temp_change-->
+    <br> 
+    <script>
+                /* 
+            "home.js" - scripts to load the choropleth map visualizing the US state annual temperature anamolies from 1950 - 2019
+        */
+
+        var width = 900;
+        var height = 600;
+        var lowColor = '#33cc33';
+        var highColor = '#ff0000';
+        var minVal = -2.1;
+        var maxVal = 6;
+        var ramp = d3.scaleLinear().domain([minVal,maxVal]).range([0.4,1.0])
+
+        initial_year = 0;
+
+        // Function to get the temperature change of the initial year
+        function get_temp_data(feature){
+            d3.csv("us_states_temperature_anamolies.csv", function(data) {
+            var dataArray = [];
+                    var columns = [];
+                    for (var i in data[0]){
+                        if (i != 'State' && i != 'fips') {
+                            columns.push(i)
+                        }
+                    }
+                    value = columns[feature]
+                    d3.select('#clock').html(value); 
+                    for (var d = 0; d < data.length; d++) {
+                        dataArray.push(parseFloat(Number(data[d][value])))
+                    }    
+        var projection = d3.geoAlbersUsa()
+                            .translate([width/2, height/2])
+                            .scale([1000]);
+        mapping_states(data,columns,value,feature,ramp)
+                    })};
+        // Function to get the temperature change of the consequetive years
+        function get_temp_data_new(feature){
+            d3.csv("us_states_temperature_anamolies.csv", function(data) {
+            var dataArray = [];
+                    var columns = [];
+                    for (var i in data[0]){
+                        if (i != 'State' && i != 'fips') {
+                            columns.push(i)
+                        }
+                    }
+                    value = columns[feature]
+                    d3.select('#clock').html(value); 
+                    for (var d = 0; d < data.length; d++) {
+                        dataArray.push(parseFloat(Number(data[d][value])))
+                    }  
+                    sequenceMap(value,feature,columns,data);
+                    })};
+        //Function to map the temperature to appropriate states and draw the us states geometry
+        function mapping_states(data,columns,value,feature,ramp){
+            var projection = d3.geoAlbersUsa()
+                            .translate([width/2, height/2])
+                            .scale([1000]);
+        var path = d3.geoPath().projection(projection);
+            // Load GeoJSON data and merge with states data
+        d3.json("us-states.json", function(json) {
+        // Loop through each state data value in the .csv file
+            for (var i = 0; i < data.length; i++) {
+                var dataState = data[i].State;
+                var dataValue = data[i][value];
+                for (var j = 0; j < json.features.length; j++) {
+                var jsonState = json.features[j].properties.name;      
+                if (dataState == jsonState) {
+                    json.features[j].properties.value = dataValue;
+                    break;
+                }
+                }
+            }
+
+            // creating svg to draw the geometry
+            var svg = d3.select("#map").append("svg")
+                    .attr("width", width)
+                    .attr("height",height);
+            svg.selectAll(".country")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("class", "country")
+                .attr("d", path)
+                .style("stroke", "#fff")
+                .style("stroke-width", "1")
+                .style("fill", 'steelblue')
+                .style("fill-opacity", function(d) { 
+                return ramp(d.properties.value)});
+            //timer to change the year
+            timer(columns,feature)
+        })};
+        //function to support sequencing of years and repeat the process
+        function sequenceMap(value,feature,columns,data) {
+            d3.json("us-states.json", function(json) {
+            for (var i = 0; i < data.length; i++) {
+                var dataState = data[i].State;
+                var dataValue = data[i][value];
+                for (var j = 0; j < json.features.length; j++) {
+                var jsonState = json.features[j].properties.name;
+                if (dataState == jsonState) {
+                    json.features[j].properties.value = dataValue;
+                    break;
+                }
+                }
+            }
+            //to sleep/delay the next year transition
+            function sleep(milliseconds) {
+                const date = Date.now();
+                let currentDate = null;
+                do {
+                    currentDate = Date.now();
+                } while (currentDate - date < milliseconds);
+                };
+            sleep(700);
+            d3.selectAll('.country')
+            .data(json.features)
+            .transition()  
+            .duration(720)  
+            //change the opacity of the color to show how far the data is deviated from average period
+            .attr('fill-opacity', function(d) {
+                    console.log(ramp(d.properties.value))
+                        return ramp(d.properties.value);  
+        });
+            timer(columns,feature);
+
+        })
+        };
+        // Next iteration invoke
+        function timer(columns,feature){
+            var time_int ;
+            if (feature < columns.length-1){
+                feature += 1;
+                get_temp_data_new(feature)
+            } 
+            else {
+                feature = 0;
+                get_temp_data_new(feature)
+            }
+            
+        };
+        //start of the cycle - initialization with year - 1950
+        get_temp_data(0);
+
+        // reference - https://bl.ocks.org/duspviz-mit/9b6dce37101c30ab80d0bf378fe5e583
+        var w = 300, h = 50;
+        var key = d3.select("#legend1")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
+        var legend = key.append("defs")
+            .append("svg:linearGradient")
+            .attr("id", "gradient")
+            .attr("x1", "0%")
+            .attr("y1", "100%")
+            .attr("x2", "100%")
+            .attr("y2", "100%")
+            .attr("spreadMethod", "pad");
+        legend.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "steelblue")
+            .attr("stop-opacity", 0.5);
+        legend.append("stop")
+            .attr("offset", "33%")
+            .attr("stop-color", "steelblue")
+            .attr("stop-opacity", 0.665);
+        legend.append("stop")
+            .attr("offset", "66%")
+            .attr("stop-color", "steelblue")
+            .attr("stop-opacity", 0.83);
+        legend.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "steelblue")
+            .attr("stop-opacity", 1);
+        key.append("rect")
+            .attr("width", w)
+            .attr("height", h - 30)
+            .style("fill", "url(#gradient)")
+            .attr("transform", "translate(10,10)");
+        var y = d3.scaleLinear()
+            .range([300, 0])
+            .domain([6.5, -5]);
+        var yAxis = d3.axisBottom()
+            .scale(y)
+            .ticks(5);
+        key.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(10,30)")
+            .call(yAxis)
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("axis title");
+    </script> 
+    <br>
+    <div id="Datasource">
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Data Source</h3>
+        <p style="font-family: 'Alegreya'; font-size: 16px;">The data for analysis and graphs are sources from the <a href="https://www.ncdc.noaa.gov/cag/statewide/time-series">"National Center for Environmental Information(NOAA)"</a></p>
+        <ul>
+            <li><a href="https://www.ncdc.noaa.gov/cag/global/time-series/globe/land_ocean/ytd/12/1880-2019">Surface and Land temperature</a></li>
+            <li><a href="https://nsidc.org/data/seaice_index/archives">Northern and Southern Hemisphere Sea Extend</a></li>
+            <li><a href=" https://ourworldindata.org/co2-emissions ">CO2 Emissions</a></li>
+            <li><a href="https://www.germanwatch.org/en/cri">Climate Risk Index</a></li>
+            <li><a href="https://olc.worldbank.org/system/files/Chapter%202_3.pdf">Renewable Energy investment & consumption</a></li>
+            <li><a href="https://www.climate-change-performance-index.org/climate-change-performance-index-2020">Climate Change Performance Index</a></li>
+        </ul>
+        <br>
+
+    <br>
+    <div id="latest">
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Latest News</h3>
+        <ul>
+            <li><a href="https://climate.nasa.gov/news/3053/sea-level-projections-drive-san-franciscos-adaptation-planning/">Sea Level Projections Drive San Fransisco's Adaptation Planning</a></li>
+            <li><a href="https://climate.nasa.gov/news/3050/new-high-tide-flooding-projection-tool-aids-us-coastal-decision-making/">New High Tide Flooding Projection Tools Aids U.S. Coastal Decision Making</a></li>
+            <li><a href="https://climate.nasa.gov/news/3046/arctic-animals-movement-patterns-are-shifting-in-different-ways-as-the-climate-changes/">Arctic Animals Movement Patterns are Shifting as Climate Changes</a></li>
+            <li><a href="https://climate.nasa.gov/news/3045/us-european-mission-launches-to-monitor-the-worlds-oceans/">US-European Mission Lauches to Monitor the worlds Oceans</a></li>
+            <li><a href="https://climate.nasa.gov/news/3045/us-european-mission-launches-to-monitor-the-worlds-oceans/">Changing Pacific Conditions Raise Sea Level Along U.S West Coast</a></li>
+        </ul>       
+    </div>
+    <br>
+    <br>
+    <div id="footer">
+        Copyright &copy; 2020 | Developed by Gayathri Chandrasekaran | 
+        <a href="https://github.com/gayuc07/gayathrichandrasekaran.github.io">github</a> |
+        <a href="https://zenodo.org/record/4110968#.X491GRKSnD4">Zendo</a>
+        <i class="fab fa-github-square"></i>
+    </div>
+    <br>    
+</body>
+</html>

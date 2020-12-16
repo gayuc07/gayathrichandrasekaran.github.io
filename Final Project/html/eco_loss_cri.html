@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Change</title>
+    <link rel="stylesheet" href="/Final Project/style_css.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <style>
+        .state {
+            stroke: white;
+        }
+        #map_title {
+          top: 20px;
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+          
+        }
+        #clock {
+          left: 150px;
+          font-size: xx-large;
+          font-style: italic;
+          font-family: Georgia;
+          text-align: center;
+          color: gray;
+        }
+        .state-label {
+        font-weight: 500;
+        text-transform: uppercase;
+        text-anchor: middle;
+        opacity: 0.3;
+        color: #000;
+        font-family: arial, helvetica, sans-serif;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.333em;}
+
+        #map, #legend1 {
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logobkg">
+                <div id="logo">
+                    <div id="logo text">
+                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                    </div><!-- logo text -->
+                </div><!-- logo -->
+            </div><!-- Logobkg -->    
+            <div id="menubar">
+                <ul id="menu">
+                    <li><a href="/Final Project/index.html">Home</a></li>
+                    <li ><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li ><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li class="selected"><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                </ul>
+            </div><!-- menubar-->          
+        </div><!-- Header -->
+    </div><!-- Main -->
+    <div id='eco_loss'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Global Economic Losses - Weather Catastrophes </h3> 
+        <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+            After the Industrial revolution and urbanization, its observed that majority of the economic losses are from the natural catastrophes. With the increase in the global temperatures, the frequency of and losses resulting from the weather events will rise. 
+            This statistics show the econmic losses caused by global weather Catastrophes between 2000 to 2019. In 2011, we could see loss more than 450 billion USD dollars. Also, the number of weather Catastrophes events increases linearly in the last 10 years. Over the last 10 years, World is witnessing an extreme imbalnce in the weather patterns. 
+        </p>
+    </div>
+    <div id = "economic_loss"></div>
+    <script>
+        /* This Scripts plots an bar plot using d3 for economic losses from 2000 - 2019*/
+        //set the geometry
+        var margin1 = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 660 - margin1.left - margin1.right,
+        height = 600 - margin1.top - margin1.bottom;
+        //initialize svg to plot the values
+        var svg = d3.select("#economic_loss")
+            .append("svg")
+            .attr("width", width + margin1.left + margin1.right)
+            .attr("height", height + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+        //load the data and get the inputs
+        d3.csv("/Final Project/Economic_Impacts.csv", function(data){
+            //X axis Scale - bar plot - bin size padding is taken
+            var y = d3.scaleBand()
+                        .range([ height, 0])
+                        .domain(data.map(function(d){ 
+                            if (d.Year != "") {
+                                console.log(d.Year);
+                                return d.Year;
+                            }
+                        }))
+                        .padding(0.3);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+            var x = d3.scaleLinear()
+                        .domain([0,500])
+                        .range([0,width]);
+            svg.append("g")
+                .attr("transform","translate(0," + height + ")")
+                .call(d3.axisBottom(x));
+
+            // Bars
+            svg.selectAll("mybar")
+                .data(data)
+                .enter()
+                .append("rect")
+                    .attr("y", function(d) { 
+                        if (d.year != "") {
+                            return y(d.Year);
+                        }
+                         })
+                    .attr("height", y.bandwidth())
+                    .attr("fill", "#69b3a2")
+                    // Adding transitions - No bar at start of the chart
+                    .attr("width", function(d) { 
+                        if (d.eco_loss != "")
+                        {return  x(0);} }) 
+                    .attr("x", function(d) { 
+                        if (d.eco_loss != "") {
+                            return x(0);                        }
+                         })
+            // Adding height to the bars            
+            svg.selectAll("rect")
+                    .transition()
+                    .duration(800)
+                    .attr("width", function(d) { 
+                    if (d.eco_loss != "")
+                    {return  x(d.eco_loss);} })
+                    .attr("x", function(d) { 
+                    if (d.eco_loss != "") {
+                            return x(0);                        }
+                        })
+                    .delay(function(d,i){return(i*100)})  
+             // text label for the x axis
+             svg.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin1.top + 30) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Economic Losses in USD billion at 2019 prices");
+                  // text label for the y axis
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin1.left)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("year");             
+        })
+    </script> 
+        <div id='climate_risk_index'>
+            <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Climate Risk Index(CRI) by Country</h3> 
+            <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+                The Global Climate Risk Index (CRI) analyzes to what extend countries and regions have been affected by impacts of weather related loss events like storms,floods, heat waves etc. 
+                This statistics displays the CRI for period of 2014 to 2018, colored by the countries and compared againist the absolute losses of the countries. In 2018, Japan has been affected badly with three strong extreme weather events like floods, a severe heat wave and typhoon Jebi. 
+                Its followed by Phillipines as well as Germany. For the last 10 years, most affected countries are Puerto Rico, Myanmar, and Haiti.
+            </p>
+        </div>
+        <div id="bubble_cri">
+            <p>Year:  </p><select id="selectButton1"></select>
+            <div id='cri_loss'></div>
+        </div>
+        
+        
+
+    <script>
+        /* This Scripts plots an bubble plot using d3 for climate risk index*/
+        //set the geometry
+        var margin1 = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 560 - margin1.left - margin1.right,
+        height = 450 - margin1.top - margin1.bottom;
+        //initializing svg to draw plots
+        var svg1 = d3.select("#cri_loss")
+            .append("svg")
+            .attr("width", width + margin1.left + margin1.right)
+            .attr("height", height + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+        //Loading the data
+        d3.csv("/Final Project/Economic_Impacts.csv",  function(data){
+            // Filtering the year - initial year - 2008
+            var year_fil = data.filter(function(d){
+                return d.Years == '2018';
+            })
+            // Loading the drop down box with all year values
+            filter_years = ['2018','2017','2016','2015','2014'];
+            d3.select("#selectButton1")
+                .selectAll('myOptions')
+                .data(filter_years)
+                .enter()
+                .append('option')
+                .text(function (d) { return d; }) // text showed in the menu
+                .attr("value", function (d) { return d; }) // corresponding value returned by the button
+            // x scale
+            var max_x = d3.max(year_fil, function(d){
+                    return +d.CRI;
+                })
+                var min_x = d3.min(year_fil, function(d){
+                    return +d.CRI;
+                })
+                var x = d3.scaleLinear()
+                    .domain([0, max_x+20])
+                    .range([ 0, width ]);
+                svg1.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+                // y scale - absolute losses
+                var max_y = d3.max(year_fil, function(d){
+                    return +d.Absolute_losses;
+                })
+                var min_y = d3.min(year_fil, function(d){
+                    return +d.Absolute_losses;
+                })
+                var y = d3.scaleLinear()
+                    .domain([0, 85000])
+                    .range([ height, 0 ]);
+                svg1.append("g")
+                    .call(d3.axisLeft(y));
+                var max_z = d3.max(year_fil, function(d){
+                    return +d.Deaths_inhabitants
+                })
+                var min_z = d3.min(year_fil,function(d){
+                        return +d.Deaths_inhabitants
+                })
+                var z = d3.scaleLinear()
+                        .domain([min_z,max_z])
+                        .range([1,4])
+                
+                //Add color gardients
+                // Add a scale for bubble color
+                top_countries = ['United States','India','Japan','Thailand','Peru','Germany','Kenya','Philippines','Guatemala','Vietnam','Pakistan','Sri Lanka','Madagascar','Haiti','Bangladesh','Canada','Chinese Taipei','Nepal','Dominica','Myanmar','Zimbabwe','Fiji','Bolivia','Honduras','Nicaragua','Former Yugoslav Republic of Macedonia','Sierra Leone','Rwanda'];
+                var myColor = d3.scaleOrdinal()
+                    .domain(top_countries)
+                    .range(d3.schemeCategory20c);
+                var tooltip = d3.select("#cri_loss")
+                    .append("div")
+                    .style("opacity", 0)
+                    .attr("class", "tooltip")
+                    .style("background-color", "grey")
+                    .style("border-radius", "5px")
+                    .style("padding", "10px")
+                    .style("color", "white")
+                // tool tip
+                var showTooltip = function(d) {
+                    tooltip
+                    .transition()
+                    .duration(200)
+                    tooltip
+                    .style("opacity", 1)
+                    .html("Country: " + d.Country + "<br>" + "CRI: "+ d.CRI+ "<br>"+"Death_toll: "+ d.Death_toll +"<br>"+"Death per 1000k inhabitants: "+d.Deaths_inhabitants + "<br>"+ "Absolute Losses: "+ d.Absolute_losses)
+                    .style("left", (d3.mouse(this)[0]+30) + "px")
+                    .style("top", (d3.mouse(this)[1]+30) + "px")
+                }
+                var moveTooltip = function(d) {
+                    tooltip
+                    .style("left", (d3.mouse(this)[0]+30) + "px")
+                    .style("top", (d3.mouse(this)[1]+30) + "px")
+                }
+                var hideTooltip = function(d) {
+                    tooltip
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 0)
+                }
+                // Add dots
+                var buble_data = svg1.append('g')
+                        .selectAll("circle")
+                        .data(year_fil)
+                        .enter()
+                        .append("circle")
+                        .attr("class", "bubbles")
+                        .on("mouseover", showTooltip )
+                        .on("mousemove", moveTooltip )
+                        .on("mouseleave", hideTooltip )
+                        .attr("cx", function (d) { return x(d.CRI); } )
+                        .attr("cy", function (d) { return y(d.Absolute_losses); } )
+                        .attr("r", "0" )
+                        .style("fill", function (d) { return myColor(d.Country); } )
+                buble_data.transition()
+                        .duration(2000)
+                        .attr("r", 10 );
+                
+            // text label for the x axis
+                svg1.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin1.top + 30) + ")")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .duration(2000)
+                    .delay(2000)
+                    .text("CRI Value");
+                  // text label for the y axis
+                svg1.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin1.left)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .duration(2000)
+                    .delay(2000)
+                    .text("Absolute losses (in million US$ PPP)"); 
+                // Function to update the records once the new year is selected
+                function update(selectedYear,fil_data){
+                    var year_fil_new = fil_data.filter(function(d){
+                            return d.Years == selectedYear;
+                        });
+                    buble_data
+                        .data(year_fil_new)
+                        .transition()
+                        .duration(2000)
+                        .attr("cx", function (d) {
+                             return x(d.CRI); } )
+                        .attr("cy", function (d) { return y(d.Absolute_losses); } )
+                        .attr("r", 10 )
+                        .style("fill", function (d) { return myColor(d.Country); } )
+
+                }
+
+                
+                 // When the button is changed, run the updateChart function
+                d3.select("#selectButton1").on("change", function(d) {
+                var selectedYear = d3.select(this).property("value")
+                    update(selectedYear,data)
+    })
+                                
+
+            
+        }
+        );
+                
+    </script>
+        <div id="footer4">
+            Copyright &copy; 2020 | Developed by Gayathri Chandrasekaran | 
+            <a href="https://github.com/gayuc07/gayathrichandrasekaran.github.io">github</a> |
+            <a href="https://zenodo.org/record/4110968#.X491GRKSnD4">Zendo</a>
+            <i class="fab fa-github-square"></i>
+        </div>   
+</body>
+</html>

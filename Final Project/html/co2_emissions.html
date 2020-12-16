@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Climate Change</title>
+    <link rel="stylesheet" href="/Final Project/style_css.css">
+    <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/topojson.v2.min.js"></script>
+    <style>
+        .state {
+            stroke: white;
+        }
+        #map_title {
+          top: 20px;
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+          
+        }
+        #clock {
+          left: 150px;
+          font-size: xx-large;
+          font-style: italic;
+          font-family: Georgia;
+          text-align: center;
+          color: gray;
+        }
+        .state-label {
+        font-weight: 500;
+        text-transform: uppercase;
+        text-anchor: middle;
+        opacity: 0.3;
+        color: #000;
+        font-family: arial, helvetica, sans-serif;
+        font-size: 24px;
+        line-height: 28px;
+        letter-spacing: 0.333em;}
+
+        #map, #legend1 {
+          left: 100px;
+          font:larger;
+          font-size: xx-large;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div id="logobkg">
+                <div id="logo">
+                    <div id="logo text">
+                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                    </div><!-- logo text -->
+                </div><!-- logo -->
+            </div><!-- Logobkg -->    
+            <div id="menubar">
+                <ul id="menu">
+                    <li><a href="/Final Project/index.html">Home</a></li>
+                    <li ><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li class="selected"><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                </ul>
+            </div><!-- menubar-->          
+        </div><!-- Header -->
+    </div><!-- Main -->
+    <div id='co2_emissions'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">Global CO2 Emissions - 1989 - 2018</h3> 
+        <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+            The Greenhouse gases are the key components for earth to maintain habitable temperature. Without GHS or CO2, earth would be too cold to live in. Green house gases are not harmful gas, but abundance of it makes it worse to the atmosphere. 
+            Recent times witnessed an increase in emission of co2 rate from the transportation, electricity usage and other deforestation effects produced by human society. This increases the earth's temperature at rapid scale. In 2018, the world saw about 36.57 billion metric tons of carbon dioxide emitted. 
+            This plot represents the global co2 emission from 1989 to 2018. we could see the emission rate has been increased exponentially. There is a slight drop in emission rate in 2012 which is due to recession.With the current population and economic growth, its expected to see rapid spike in the emission rate. The scatter plot show the linear relationship between the co2 emission and temperature rate.  
+        </p>
+    </div>
+    <br> 
+    <br>
+    <div id ="global_em"></div>
+    <br>
+    <div id="scatter_plot"></div>
+    <script>
+        /* This Scripts plots an line plot using d3 for co2 emission from 1989 - 2019*/
+        //set the geometry
+        var margin1 = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 600 - margin1.left - margin1.right,
+        height = 450 - margin1.top - margin1.bottom;
+        var svg = d3.select("#global_em")
+            .append("svg")
+            .attr("width", width + margin1.left + margin1.right)
+            .attr("height", height + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+        //load the data and get the inputs
+        d3.csv("/Final Project/Global_details.csv",  function(d){
+                    console.log(d);
+                    return { date : d3.timeParse("%Y")(d.Year), value : d.co2_emissions }
+                            },
+                            function(data){
+            var x = d3.scaleTime()
+                        .domain(d3.extent(data, function(d){
+                            if (d.value != ""){
+                                return d.date;
+                            }   
+                        }))
+                        .range([0,width]);
+            // X axis setup
+            svg.append("g")
+                .attr('class',"myXaxis")
+                .attr("transform","translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+                .attr("opacity", "0");
+            // Global co2 co ordinates
+            var max = d3.max(data, function(d){
+                return +d.value;
+            })
+            var min = d3.min(data, function(d){
+                    if (d.value != ""){
+                        return +d.value;
+                    }
+                    
+                })
+            var y = d3.scaleLinear()
+                        .domain([min,max])
+                        .range([height,0]);
+            svg.append("g")
+                .attr('class',"myYaxis")
+                .call(d3.axisLeft(y))
+                .attr("opacity", "0");
+              // new X axis
+            x.domain(d3.extent(data, function(d){
+                            if (d.value != ""){
+                                return d.date;
+                            }   
+                        }))
+            svg.select(".myXaxis")
+                .transition()
+                .duration(700)
+                .attr("opacity", "1")
+                .call(d3.axisBottom(x));
+            svg.select(".myYaxis")
+                .transition()
+                .duration(700)
+                .attr("opacity", "1")
+                .call(d3.axisLeft(y));
+            
+                // Set the gradient
+            // transition efects are added to make plots more intuitive
+            svg.append("linearGradient")
+            .attr("id", "line-gradient")
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", 0)
+            .attr("y1", y(0))
+            .attr("x2", 0)
+            .attr("y2", y(max))
+            .selectAll("stop")
+                .data([
+                {offset: "0%", color: "blue"},
+                {offset: "100%", color: "red"}
+                ])
+            .enter().append("stop")
+                .attr("offset", function(d) { return d.offset; })
+                .attr("stop-color", function(d) { return d.color; });
+                
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "url(#line-gradient)" )
+                .attr("stroke-width", 2)
+                .transition()
+                .delay(1000)
+                .duration(1000)
+                .attr("d", d3.line()
+                    .x(function(d) { 
+                        if(d.value !=""){
+                            return x(d.date);
+                        }
+                         })
+                    .y(function(d) { return y(d.value) })
+                    );
+             // Add the points
+                svg
+                .append("g")
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                    .transition()
+                    .duration(1000)
+                    .delay(1000)
+                    .attr("cx", function(d) { 
+                        if (d.value != ""){
+                            return x(d.date)
+                        }
+                         } )
+                    .attr("cy", function(d) { return y(d.value) } )
+                    .attr("r", 3)
+                    .attr("fill", "teal")
+              // text label for the x axis
+                svg.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin1.top + 30) + ")")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .duration(1000)
+                    .delay(1000)
+                    .text("Year");
+                  // text label for the y axis
+                svg.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin1.left)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .duration(1000)
+                    .delay(1000)
+                    .text("Global CO2 Emissions - Millions Metric Tons "); 
+        });
+    </script>  
+       <script>
+        /* This Scripts plots an scatter plot using d3 /between co2 emission and temperate anamolies*/
+        //set the geometry
+        var margin1 = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 600 - margin1.left - margin1.right,
+        height = 450 - margin1.top - margin1.bottom;
+        var svg2 = d3.select("#scatter_plot")
+            .append("svg")
+            .attr("width", width + margin1.left + margin1.right)
+            .attr("height", height + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+        d3.csv("/Final Project/Global_details.csv", function(data){
+            var x = d3.scaleLinear()
+                .domain([0, 0])
+                .range([ 0, width ]);
+                svg2.append("g")
+                .attr("class", "myXaxis")   
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x))
+                .attr("opacity", "0")
+              // Add Y axis
+            var max = d3.max(data,function(d){ 
+                if (d.co2_emissions != ""){
+                    return +d.co2_emissions;  
+                }
+                })
+            var y = d3.scaleLinear()
+                .domain([20000, max])
+                .range([ height, 0]);
+                svg2.append("g")
+                .call(d3.axisLeft(y));
+
+            // Add data to reflect the value as dots
+            svg2.append('g')
+                .selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) { 
+                    if( d.co2_emissions != ""){
+                        return x(d.temp_anamolies_c);
+                    }
+                      } )
+                .attr("cy", function (d) { 
+                    if (d.co2_emissions != "" ){
+                        return y(d.co2_emissions); 
+                    }
+                    } )
+                .attr("r", 3)
+                .style("fill", "#000066")
+              // new X axis
+                    x.domain([0, 1])
+                    svg2.select(".myXaxis")
+                        .transition()
+                        .duration(2000)
+                        .attr("opacity", "1")
+                        .call(d3.axisBottom(x));
+
+                        svg2.selectAll("circle")
+                        .transition()
+                        .delay(function(d,i){return(i*3)})
+                        .duration(2000)
+                        .attr("cx", function (d) { if (d.co2_emissions != "" ){
+                            return x(d.temp_anamolies_c);
+                        } } )
+                        .attr("cy", function (d) { if (d.co2_emissions != " "){
+                            console.log(y(d.co2_emissions))
+                            return y(d.co2_emissions);
+                        } } )
+                                      // text label for the x axis
+                        svg2.append("text")             
+                            .attr("transform",
+                                    "translate(" + (width/2) + " ," + 
+                                                (height + margin1.top + 30) + ")")
+                            .style("text-anchor", "middle")
+                            .transition()
+                            .duration(2000)
+                            .delay(2000)
+                            .text("Global Temperature Variations in degree celisus");
+                        // text label for the y axis
+                        svg2.append("text")
+                            .attr("transform", "rotate(-90)")
+                            .attr("y", 0 - margin1.left)
+                            .attr("x",0 - (height / 2))
+                            .attr("dy", "1em")
+                            .style("text-anchor", "middle")
+                            .transition()
+                            .duration(2000)
+                            .delay(2000)
+                            .text("Global CO2 Emissions - Millions Metric Tons "); 
+                    })
+
+    </script> 
+    <br>
+    <br>
+    <div id='co2_country'>
+        <h3 style="font-family: 'Aleo', serif; font-size: 22px;">CO2 Emission intensity rate by country</h3> 
+        <p  style="font-family: 'Aleo', serif; font-size: 14px;">
+            This statistics show the co2 emission rate along with global and per capita share breakdown by country. In last 10 years, its observed China is the largest emitter of the co2 followed by united states, India, Russia and Japan. 
+            Although these countries has largest global share, considering population in mind, per capita sharing show arab countries like saudi arabia, united arab nations share a quite lot emission rate for their population size. Considering, cumulative co2 emission rate, united states leads the race over the China.
+            In the last 40 years, CO2 emission rate had increased by 23.7 billion metric tons. In 2020, after covid-19 outbreak and lockdown activities led to a drop in emission rate. In March 2020, CO2 emission levels in india dropped for first time in last four decade. 
+        </p>
+        <!-- Initialize a select button -->
+        <p id="button_year">Year:  </p><select id="selectButton"></select>
+        <div id = "bubble_chart">
+    </div> 
+    
+    <script>
+         /* This Scripts plots an bubble using d3 to visualize co2 emission rate by country  */
+        //set the geometry
+        var margin1 = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 600 - margin1.left - margin1.right,
+        height = 450 - margin1.top - margin1.bottom;
+        //create svg components to draw the plot
+        var svg1 = d3.select("#bubble_chart")
+            .append("svg")
+            .attr("width", width + margin1.left + margin1.right)
+            .attr("height", height + margin1.top + margin1.bottom)
+            .append("g")
+            .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
+        //load the data
+        d3.csv("/Final Project/co2_emission_stats.csv",  function(data){
+            //filtering top 20 countries
+            top_countries = ['China','United States','India','Russia','Japan','Germany','Iran','South Korea','Saudi Arabia','Indonesia','Canada','Mexico','South Africa','Brazil','Turkey','Australia','United Kingdom','Poland','Italy'];
+            var fil_data = data.filter(function(d,i){
+                return top_countries.indexOf(d.country) >= 0;
+            })
+            //filter 2018 records - initial start
+            var year_fil = fil_data.filter(function(d){
+                return d.Year == '2018';
+            })
+            // Load the drop button with Year options
+            filter_years = ['2018','2017','2016','2015','2014','2013','2012','2011','2010','2009','2008','2007','2006'];
+            d3.select("#selectButton")
+                .selectAll('myOptions')
+                .data(filter_years)
+                .enter()
+                .append('option')
+                .text(function (d) { return d; }) // text showed in the menu
+                .attr("value", function (d) { return d; }) // corresponding value returned by the button
+            // X scale - co2 emissions
+            var max_x = d3.max(year_fil, function(d){
+                    return +d.co2_emission;
+                })
+                var min_x = d3.min(year_fil, function(d){
+                    return +d.co2_emission;
+                })
+                var x = d3.scaleLinear()
+                    .domain([0, max_x+500])
+                    .range([ 0, width ]);
+                svg1.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x));
+                //Y scale - co2 emission per capita share
+                var max_y = d3.max(year_fil, function(d){
+                    return +d.per_Capita_share;
+                })
+                var min_y = d3.min(year_fil, function(d){
+                    return +d.per_Capita_share;
+                })
+                var y = d3.scaleLinear()
+                    .domain([min_y-2, max_y+7])
+                    .range([ height, 0 ]);
+                svg1.append("g")
+                    .call(d3.axisLeft(y));
+                // z scale - CO2 global share - size of the bubble
+                var max_z = d3.max(year_fil, function(d){
+                    return +d.global_share
+                })
+                var min_z = d3.min(year_fil,function(d){
+                        return +d.global_share
+                })
+                var z = d3.scaleLinear()
+                        .domain([min_z,max_z+3])
+                        .range([4,40])
+                
+                //Add color gardients
+                // Add a scale for bubble color
+                console.log(top_countries);
+                var myColor = d3.scaleOrdinal()
+                    .domain(top_countries)
+                    .range(d3.schemeCategory20c);
+                var tooltip = d3.select("#bubble_chart")
+                    .append("div")
+                    .style("opacity", 0)
+                    .attr("class", "tooltip")
+                    .style("background-color", "grey")
+                    .style("border-radius", "5px")
+                    .style("padding", "10px")
+                    .style("color", "white")
+                    .style("width", "550px")
+                
+                //tooltip to show the hovered detailed information
+                var showTooltip = function(d) {
+                    tooltip
+                    .transition()
+                    .duration(200)
+                    tooltip
+                    .style("opacity", 1)
+                    .html("Country: " + d.country + "<br>" + "co2_emissions: "+ d.co2_emission +"<br>"+"per capita emissions: "+d.per_Capita_share)
+                    .style("left", (d3.mouse(this)[0]+30) + "px")
+                    .style("top", (d3.mouse(this)[1]+30) + "px")
+                }
+                var moveTooltip = function(d) {
+                    tooltip
+                    .style("left", (d3.mouse(this)[0]+30) + "px")
+                    .style("top", (d3.mouse(this)[1]+30) + "px")
+                }
+                var hideTooltip = function(d) {
+                    tooltip
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 0)
+                }
+                // tip --> co2 emission, global share, per capita share & country
+                var buble_data = svg1.append('g')
+                        .selectAll("circle")
+                        .data(year_fil)
+                        .enter()
+                        .append("circle")
+                        .attr("class", "bubbles")
+                        .on("mouseover", showTooltip )
+                        .on("mousemove", moveTooltip )
+                        .on("mouseleave", hideTooltip )
+                        .attr("cx", function (d) { return x(d.co2_emission); } )
+                        .attr("cy", function (d) { return y(d.per_Capita_share); } )
+                        .attr("r", "0" )
+                        .style("fill", function (d) { return myColor(d.country); } )
+                buble_data.transition()
+                        .duration(2000)
+                        .attr("r", function (d) { return z(d.global_share); } );
+                
+            // text label for the x axis
+                svg1.append("text")             
+                    .attr("transform",
+                            "translate(" + (width/2) + " ," + 
+                                        (height + margin1.top + 30) + ")")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .duration(2000)
+                    .delay(2000)
+                    .text("Annual CO2 emissions - Millions Metric Tons");
+                  // text label for the y axis
+                svg1.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin1.left)
+                    .attr("x",0 - (height / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .transition()
+                    .duration(2000)
+                    .delay(2000)
+                    .text("Per capita CO2 emissions"); 
+                // Function to update the records for new year filtered
+                function update(selectedYear,fil_data){
+                    var year_fil_new = fil_data.filter(function(d){
+                            return d.Year == selectedYear;
+                        });
+                    buble_data
+                        .data(year_fil_new)
+                        .transition()
+                        .duration(2000)
+                        .attr("cx", function (d) {
+                             return x(d.co2_emission); } )
+                        .attr("cy", function (d) { return y(d.per_Capita_share); } )
+                        .attr("r", function (d) { return z(d.global_share); } )
+                        .style("fill", function (d) { return myColor(d.country); } )
+
+                }
+
+                
+                 // When the button is changed, run the updateChart function
+                d3.select("#selectButton").on("change", function(d) {
+                var selectedYear = d3.select(this).property("value")
+                    update(selectedYear,fil_data)
+    })
+        }
+        );
+                
+    </script> 
+     
+     <div id="footer3">
+        Copyright &copy; 2020 | Developed by Gayathri Chandrasekaran | 
+        <a href="https://github.com/gayuc07/gayathrichandrasekaran.github.io">github</a> |
+        <a href="https://zenodo.org/record/4110968#.X491GRKSnD4">Zendo</a>
+        <i class="fab fa-github-square"></i>
+    </div>
+</body>
+</html>
