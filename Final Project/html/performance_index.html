@@ -6,7 +6,7 @@
     <title>Global Climate Change</title>
     <link rel="stylesheet" href="/Final Project/style_css.css">
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="/Final Project/google_charts.js"></script>
+    <script src="/gayathrichandrasekaran.github.io/Final Project/google_charts.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
     <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -21,18 +21,18 @@
             <div id="logobkg">
                 <div id="logo">
                     <div id="logo text">
-                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                        <h1><a href="/gayathrichandrasekaran.github.io/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
                     </div><!-- logo text -->
                 </div><!-- logo -->
             </div><!-- Logobkg -->    
             <div id="menubar">
                 <ul id="menu">
-                    <li><a href="/Final Project/index.html">Home</a></li>
-                    <li ><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
-                    <li ><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
-                    <li ><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
-                    <li ><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
-                    <li class="selected"><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                    <li><a href="/gayathrichandrasekaran.github.io/Final Project/index.html">Home</a></li>
+                    <li ><a href="/gayathrichandrasekaran.github.io/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li ><a href="/gayathrichandrasekaran.github.io/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li ><a href="/gayathrichandrasekaran.github.io/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li ><a href="/gayathrichandrasekaran.github.io/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li class="selected"><a href="/gayathrichandrasekaran.github.io/Final Project/html/performance_index.html">Performance Index</a></li>
                 </ul>
             </div><!-- menubar-->          
         </div><!-- Header -->
@@ -69,7 +69,7 @@
             .append("g")
             .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
         //Load the data
-        d3.csv("/Final Project/climate_change_performance_index.csv", function(data){
+        d3.csv("/gayathrichandrasekaran.github.io/Final Project/climate_change_performance_index.csv", function(data){
             //filtering the year - initial year - 2020
             var year_fil = data.filter(function(d){
                 return d.Year == '2020';
