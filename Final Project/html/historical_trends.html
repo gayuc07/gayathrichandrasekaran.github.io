@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Climate Change</title>
-    <link rel="stylesheet" href="/Final Project/style_css.css">
+    <link rel="stylesheet" href="/gayathrichandrasekaran.github.io/Final Project/style_css.css">
     <link href='https://fonts.googleapis.com/css?family=Alegreya' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=Aleo' rel='stylesheet'>
     <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -57,18 +57,18 @@
             <div id="logobkg">
                 <div id="logo">
                     <div id="logo text">
-                        <h1><a href="/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
+                        <h1><a href="/gayathrichandrasekaran.github.io/Final Project/index.html">GLOBAL CLIMATE CHANGE</a></h1>
                     </div><!-- logo text -->
                 </div><!-- logo -->
             </div><!-- Logobkg -->    
             <div id="menubar">
                 <ul id="menu">
-                    <li><a href="/Final Project/index.html">Home</a></li>
-                    <li class="selected"><a href="/Final Project/html/historical_trends.html">Historical Trends</a></li>
-                    <li><a href="/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
-                    <li><a href="/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
-                    <li><a href="/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
-                    <li><a href="/Final Project/html/performance_index.html">Performance Index</a></li>
+                    <li><a href="/gayathrichandrasekaran.github.io/Final Project/index.html">Home</a></li>
+                    <li class="selected"><a href="/gayathrichandrasekaran.github.io/Final Project/html/historical_trends.html">Historical Trends</a></li>
+                    <li><a href="/gayathrichandrasekaran.github.io/Final Project/html/co2_emissions.html">CO2 Emission Rate</a></li>
+                    <li><a href="/gayathrichandrasekaran.github.io/Final Project/html/eco_loss_cri.html">Economic loss & Risk index</a></li>
+                    <li><a href="/gayathrichandrasekaran.github.io/Final Project/html/renewable_energy.html">Renewable Energy</a></li>
+                    <li><a href="/gayathrichandrasekaran.github.io/Final Project/html/performance_index.html">Performance Index</a></li>
                 </ul>
             </div><!-- menubar-->          
         </div><!-- Header -->
@@ -115,7 +115,7 @@
             .append("g")
             .attr("transform","translate(" + margin1.left + "," + margin1.top + ")");
         // Add the data to the svg to draw the line plot
-        d3.csv("/Final Project/Global_details.csv",  function(d){
+        d3.csv("/gayathrichandrasekaran.github.io/Final Project/Global_details.csv",  function(d){
                     return { date : d3.timeParse("%Y")(d.Year), value : d.temp_anamolies_c }
                             },
                             function(data){
@@ -215,7 +215,7 @@
             .append("g")
             .attr("transform","translate(" + margin.left + "," + margin.top + ")");
         //calling the source file
-        d3.csv("/Final Project/Global_details.csv",  function(d){
+        d3.csv("/gayathrichandrasekaran.github.io/Final Project/Global_details.csv",  function(d){
                     return { date : d3.timeParse("%Y")(d.Year), value : d.artic_sea_extend }
                             },
                             function(data){
@@ -316,7 +316,7 @@
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform","translate(" + margin.left + "," + margin.top + ")");
-        d3.csv("/Final Project/Global_details.csv",  function(d){
+        d3.csv("/gayathrichandrasekaran.github.io/Final Project/Global_details.csv",  function(d){
                     return { date : d3.timeParse("%Y")(d.Year), value : d.Antartic_sea_extend }
                             },
                             function(data){
